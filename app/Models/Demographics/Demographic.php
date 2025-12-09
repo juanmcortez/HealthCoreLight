@@ -126,8 +126,8 @@ class Demographic extends Model
     public function primary_email(): HasOne
     {
         return $this->hasOne(Email::class, 'demographic_id', 'id')
-            ->where('is_primary', true)
-            ->where('is_verified', true)
+            ->primary()
+            ->verified()
             ->withDefault();
     }
 }
