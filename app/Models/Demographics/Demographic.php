@@ -16,6 +16,7 @@ use App\Enums\IdentificationType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -28,7 +29,7 @@ class Demographic extends Model
      *
      * @var array
      */
-    protected $with = ['emails'];
+    protected $with = ['primary_email'];
 
     /**
      * The attributes that are mass assignable.
@@ -115,5 +116,18 @@ class Demographic extends Model
     public function emails(): HasMany
     {
         return $this->hasMany(Email::class, 'demographic_id', 'id');
+    }
+
+    /**
+     * Get the first primary email for the demographics
+     *
+     * @return HasOne
+     */
+    public function primary_email(): HasOne
+    {
+        return $this->hasOne(Email::class, 'demographic_id', 'id')
+            ->where('is_primary', true)
+            ->where('is_verified', true)
+            ->withDefault();
     }
 }
