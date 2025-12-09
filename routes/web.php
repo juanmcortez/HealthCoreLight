@@ -1,8 +1,14 @@
 <?php
 
-use App\Models\Users\User;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboards\DashboardController;
 
-Route::get('/', static function () {
-    return User::all();
+// All the following routes require registration and login
+Route::middleware(['auth'])->group(function () {
+    // ---------------
+    // Default landing
+    Route::get('/', DashboardController::class)
+        ->name('dashboard');
+    // ---------------
 });
+
