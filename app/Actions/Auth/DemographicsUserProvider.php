@@ -7,7 +7,7 @@
  *  @license MIT License
  */
 
-namespace App\Auth;
+namespace App\Actions\Auth;
 
 use Illuminate\Auth\EloquentUserProvider;
 
