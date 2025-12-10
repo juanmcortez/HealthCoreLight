@@ -43,7 +43,7 @@
                      x-transition:leave="transition ease-in duration-75"
                      x-transition:leave-start="transform opacity-100 scale-100"
                      x-transition:leave-end="transform opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 py-2"
+                     class="absolute right-0 mt-2 min-w-52 w-auto bg-white rounded-lg shadow-lg border border-gray-200 py-2"
                      style="display: none;">
                     <div class="px-4 py-2 border-b border-gray-200">
                         <h3 class="text-sm font-semibold text-gray-900">{{ __('Notifications') }}</h3>
@@ -85,15 +85,15 @@
                      x-transition:leave="transition ease-in duration-75"
                      x-transition:leave-start="transform opacity-100 scale-100"
                      x-transition:leave-end="transform opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2"
+                     class="absolute right-0 w-auto bg-white rounded-lg shadow-lg border border-gray-200 py-2"
                      style="display: none;">
-                    <div class="px-4 py-2 border-b border-gray-200">
-                        <p class="text-sm font-medium text-gray-900">{{ auth()->user()->demographics->full_name ?? auth()->user()->username }}</p>
-                        @if(auth()->user()->demographics->primary_email->email)
-                            <p class="text-xs text-gray-500">{{ auth()->user()->demographics->primary_email->email }}</p>
-                        @endif
+                    <div class="px-4 pb-2 border-b border-gray-200">
+                        <p class="pt-1 text-sm font-medium text-gray-900">{{ auth()->user()->demographics->primary_email->email ?? auth()->user()->username }}</p>
+                        <p class="py-1 text-xs text-gray-500">
+                            {!! __('Last login: <em>:date</em>', ['date' => auth()->user()->last_login_at ?? __('Never') ]) !!}
+                        </p>
                     </div>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                    <a href="#" class="block mt-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                         <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>

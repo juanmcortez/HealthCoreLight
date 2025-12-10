@@ -9,12 +9,14 @@
 
 namespace App\Models\Users;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Demographics\Demographic;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,7 +51,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_active',
         'last_login_at',
         'demographic_id',
+        'profile_completed',
         'password',
+        'remember_token',
     ];
 
     /**
@@ -63,6 +67,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_completed',
         'password',
         'remember_token',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'two_factor_confirmed_at',
         'updated_at',
         'deleted_at',
     ];
@@ -92,6 +99,16 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('is_primary', true)
             ->first()
             ?->email;
+    }
+
+    /**
+     * Get the last_login_at attribute
+     */
+    public function lastLoginAt(): Attribute
+    {
+        return Attribute::make(
+            get: static fn($value) => $value ? Carbon::parse($value)->format('M d, Y H:i') : null,
+        );
     }
 
     /**
