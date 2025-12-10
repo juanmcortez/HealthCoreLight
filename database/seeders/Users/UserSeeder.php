@@ -2,7 +2,6 @@
 
 namespace Database\Seeders\Users;
 
-use App\Enums\EmailType;
 use App\Models\Users\User;
 use Illuminate\Database\Seeder;
 use App\Models\Demographics\Email;
@@ -44,7 +43,7 @@ class UserSeeder extends Seeder
             ]);
         Email::factory()
             ->primary()
-            ->verified()
+            ->unverified()
             ->create([
                 'demographic_id' => $new_user->demographic_id,
                 'email' => 'admin@healthcorelight.test',
@@ -60,7 +59,7 @@ class UserSeeder extends Seeder
             ]);
         Email::factory()
             ->primary()
-            ->verified()
+            ->unverified()
             ->create([
                 'demographic_id' => $new_user->demographic_id,
                 'email' => 'manager@healthcorelight.test',
@@ -80,10 +79,11 @@ class UserSeeder extends Seeder
                 ]);
                 // ---
                 Email::factory()
-                    ->verified()
+                    ->primary()
+                    ->unverified()
                     ->create([
                         'demographic_id' => $user->demographic_id,
-                        'email_type' => fake()->randomElement(EmailType::nonPrimary()),
+                        // 'email_type' => fake()->randomElement(EmailType::nonPrimary()),
                     ]);
             });
     }

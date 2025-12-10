@@ -51,7 +51,7 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         // Store the email
-        $user->demographics->emails()->primary()->verified()->create([
+        $user->demographics->emails()->create([
             'email_type' => EmailType::PRIMARY->value,
             'email' => Str::lower(Str::trim($input['email'])),
         ]);

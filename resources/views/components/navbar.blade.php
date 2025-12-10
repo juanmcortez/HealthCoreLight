@@ -61,14 +61,14 @@
                 <button @click="open = !open" class="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-lg transition-colors">
                     <div class="w-8 h-8 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-full flex items-center justify-center">
                         <span class="text-white text-sm font-semibold">
-                            {{ Str::upper(Str::substr(auth()->user()->username, 0, 2)) }}
+                            {{ auth()->user()->demographics->initials ?? Str::upper(Str::substr(auth()->user()->username, 0, 2)) }}
                         </span>
                     </div>
                     <div class="hidden md:block text-left">
-                        <p class="text-sm font-medium text-gray-900">{{ auth()->user()->username }}</p>
+                        <p class="text-sm font-medium text-gray-900">{{ auth()->user()->demographics->full_name ?? auth()->user()->username }}</p>
                         <p class="text-xs text-gray-500">
                             {{-- auth()->user()->roles->first()->display_name ?? 'User' --}}
-                            {{ __('User') }}
+                            {{ auth()->user()->username ?? auth()->user()->demographics->full_name }}
                         </p>
                     </div>
                     <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,7 +88,7 @@
                      class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2"
                      style="display: none;">
                     <div class="px-4 py-2 border-b border-gray-200">
-                        <p class="text-sm font-medium text-gray-900">{{ auth()->user()->username }}</p>
+                        <p class="text-sm font-medium text-gray-900">{{ auth()->user()->demographics->full_name ?? auth()->user()->username }}</p>
                         @if(auth()->user()->demographics->primary_email->email)
                             <p class="text-xs text-gray-500">{{ auth()->user()->demographics->primary_email->email }}</p>
                         @endif

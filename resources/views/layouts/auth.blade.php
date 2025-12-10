@@ -17,7 +17,7 @@
 <body class="antialiased bg-gradient-to-br from-primary-50 via-white to-secondary-50 min-h-screen">
 <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 px-4">
     <!-- Logo -->
-    <div class="mb-8">
+    <div class="mb-4">
         <a href="/" class="flex items-center space-x-3">
             <div class="w-12 h-12 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-xl flex items-center justify-center shadow-lg">
                 <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,6 +31,8 @@
             </div>
         </a>
     </div>
+
+    @include('components.messages')
 
     <!-- Content Card -->
     <div class="w-full sm:max-w-md">

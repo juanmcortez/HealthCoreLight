@@ -32,8 +32,25 @@
     </div>
 @endif
 
-@if (session('status'))
+<!-- Session Status -->
+@if (session('status') === 'verification-link-sent')
+    <div class="mb-4 p-4 bg-secondary-50 border border-secondary-200 text-secondary-800 rounded-lg text-sm">
+        {{ __('A new verification link has been sent to your email address.') }}
+    </div>
+@elseif (session('status'))
     <div class="mb-4 p-4 bg-secondary-50 border border-secondary-200 text-secondary-800 rounded-lg text-sm">
         {{ session('status') }}
+    </div>
+@endif
+
+<!-- Validation Errors -->
+@if ($errors->any())
+    <div class="mb-4 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg">
+        <div class="font-medium text-sm mb-2">{{ __('Whoops! Something went wrong.') }}</div>
+        <ul class="list-disc list-inside text-sm space-y-1">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
 @endif

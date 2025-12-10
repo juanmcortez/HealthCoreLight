@@ -11,6 +11,8 @@ namespace App\Models\Demographics;
 
 use App\Enums\Gender;
 use App\Enums\Ethnicity;
+use App\Models\Users\User;
+use Illuminate\Support\Str;
 use App\Enums\PreferredLanguage;
 use App\Enums\IdentificationType;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Demographic extends Model
@@ -85,7 +88,8 @@ class Demographic extends Model
      */
     protected $appends = [
         'full_name',
-        'id_card'
+        'id_card',
+        'initials',
     ];
 
     /**
@@ -109,6 +113,26 @@ class Demographic extends Model
     }
 
     /**
+     * Get the full_name attribute.
+     */
+    public function initials(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Str::upper(Str::substr($this->last_name, 0, 1).Str::substr($this->first_name, 0, 1)),
+        );
+    }
+
+    /**
+     * Get the user relationship if exists.
+     *
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'demographic_id', 'id')->withDefault();
+    }
+
+    /**
      * Get the full list of emails.
      *
      * @return HasMany
@@ -127,7 +151,6 @@ class Demographic extends Model
     {
         return $this->hasOne(Email::class, 'demographic_id', 'id')
             ->primary()
-            ->verified()
             ->withDefault();
     }
 }

@@ -40,6 +40,7 @@ class Email extends Model
      */
     protected $hidden = [
         'id',
+        'is_primary',
         'is_verified',
         'verified_at',
         'demographic_id',
@@ -65,6 +66,8 @@ class Email extends Model
 
     /**
      * Get the demographic that owns this email.
+     *
+     * @return BelongsTo
      */
     public function demographic(): BelongsTo
     {
