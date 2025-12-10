@@ -12,6 +12,7 @@ namespace App\Models\Demographics;
 use App\Enums\Gender;
 use App\Enums\Ethnicity;
 use App\Models\Users\User;
+use Illuminate\Support\Str;
 use App\Enums\PreferredLanguage;
 use App\Enums\IdentificationType;
 use Illuminate\Database\Eloquent\Model;
@@ -87,7 +88,8 @@ class Demographic extends Model
      */
     protected $appends = [
         'full_name',
-        'id_card'
+        'id_card',
+        'initials',
     ];
 
     /**
@@ -107,6 +109,16 @@ class Demographic extends Model
     {
         return Attribute::make(
             get: fn() => ($this->identification_number) ? $this->identification_type->label().' #'.$this->identification_number : null,
+        );
+    }
+
+    /**
+     * Get the full_name attribute.
+     */
+    public function initials(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Str::upper(Str::substr($this->last_name, 0, 1).Str::substr($this->first_name, 0, 1)),
         );
     }
 
