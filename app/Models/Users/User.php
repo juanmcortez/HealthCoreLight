@@ -13,9 +13,10 @@ namespace App\Models\Users;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Demographics\Demographic;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -79,6 +80,29 @@ class User extends Authenticatable
             'profile_completed' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the email attribute
+     */
+    public function getEmailAttribute()
+    {
+        return $this->demographics?->emails()
+            ->where('is_primary', true)
+            ->first()
+            ?->email;
+    }
+
+    /**
+     *  Helper function for the password reset notification
+     *
+     * @param $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $email = $this->email;
+        $this->notify(new ResetPassword($token));
     }
 
     /**
