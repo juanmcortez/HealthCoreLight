@@ -54,8 +54,6 @@ class CreateNewUser implements CreatesNewUsers
         $user->demographics->emails()->create([
             'email_type' => EmailType::PRIMARY->value,
             'email' => Str::lower(Str::trim($input['email'])),
-            'is_verified' => true,
-            'verified_at' => now(),
         ]);
 
         // Return the registered user

@@ -9,16 +9,17 @@
 
 namespace App\Models\Users;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Demographics\Demographic;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\Users\UserFactory> */
     use HasFactory, Notifiable, SoftDeletes;
@@ -91,6 +92,44 @@ class User extends Authenticatable
             ->where('is_primary', true)
             ->first()
             ?->email;
+    }
+
+    /**
+     * Determine if the user has verified their email address.
+     */
+    public function hasVerifiedEmail()
+    {
+        return $this->demographics?->primary_email?->is_verified ?? false;
+    }
+
+    /**
+     * Mark the given user's email as verified.
+     */
+    public function markEmailAsVerified()
+    {
+        $primaryEmail = $this->demographics?->primary_email;
+
+        if ($primaryEmail) {
+            $primaryEmail->markAsVerified();
+        }
+
+        return true;
+    }
+
+    /**
+     * Send the email verification notification.
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
+
+    /**
+     * Get the email address that should be used for verification.
+     */
+    public function getEmailForVerification()
+    {
+        return $this->email; // Uses the accessor we created earlier
     }
 
     /**

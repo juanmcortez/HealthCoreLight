@@ -139,7 +139,6 @@ class Demographic extends Model
     {
         return $this->hasOne(Email::class, 'demographic_id', 'id')
             ->primary()
-            ->verified()
             ->withDefault();
     }
 }
