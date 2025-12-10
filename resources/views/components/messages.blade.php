@@ -31,3 +31,9 @@
         <span class="text-yellow-800">{{ session('warning') }}</span>
     </div>
 @endif
+
+@if (session('status'))
+    <div class="mb-4 p-4 bg-secondary-50 border border-secondary-200 text-secondary-800 rounded-lg text-sm">
+        {{ session('status') }}
+    </div>
+@endif
