@@ -48,6 +48,7 @@ class CreateNewUser implements CreatesNewUsers
             'username' => Str::lower(Str::trim($input['username'])),
             'password' => Hash::make($input['password']),
             'demographic_id' => Demographic::factory()->create()->id,
+            'profile_completed' => false,
         ]);
 
         // Store the email
