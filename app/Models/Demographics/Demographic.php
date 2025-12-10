@@ -11,6 +11,7 @@ namespace App\Models\Demographics;
 
 use App\Enums\Gender;
 use App\Enums\Ethnicity;
+use App\Models\Users\User;
 use App\Enums\PreferredLanguage;
 use App\Enums\IdentificationType;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Demographic extends Model
@@ -106,6 +108,16 @@ class Demographic extends Model
         return Attribute::make(
             get: fn() => ($this->identification_number) ? $this->identification_type->label().' #'.$this->identification_number : null,
         );
+    }
+
+    /**
+     * Get the user relationship if exists.
+     *
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'demographic_id', 'id')->withDefault();
     }
 
     /**

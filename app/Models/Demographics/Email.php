@@ -66,6 +66,8 @@ class Email extends Model
 
     /**
      * Get the demographic that owns this email.
+     *
+     * @return BelongsTo
      */
     public function demographic(): BelongsTo
     {
