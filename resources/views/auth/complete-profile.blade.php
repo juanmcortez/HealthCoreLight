@@ -97,7 +97,7 @@
                         name="gender"
                         required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('gender') border-red-500 @enderror">
-                        <option>{{ __('Select ...') }}</option>
+                        <option value="">{{ __('Select ...') }}</option>
                         @foreach(App\Enums\Gender::cases() as $gender)
                             <option value="{{ $gender->value }}" @selected(old('gender') === $gender->value)>
                                 {{ $gender->label() }}
@@ -119,16 +119,15 @@
                     <select
                         id="identification_type"
                         name="identification_type"
-                        required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('identification_type') border-red-500 @enderror">
-                        <option>{{ __('Select ...') }}</option>
+                        <option value="">{{ __('Select ...') }}</option>
                         @foreach(App\Enums\IdentificationType::cases() as $IDType)
                             <option value="{{ $IDType->value }}" @selected(old('identification_type') === $IDType->value)>
                                 {{ $IDType->label() }}
                             </option>
                         @endforeach
                     </select>
-                    @error('identification_number')
+                    @error('identification_type')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
@@ -141,11 +140,10 @@
                         name="identification_number"
                         type="text"
                         value="{{ old('identification_number') }}"
-                        pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('ssn') border-red-500 @enderror"
-                        placeholder="XXX-XX-XXXX"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('identification_number') border-red-500 @enderror"
+                        placeholder="Enter your identification number"
                     >
-                    <p class="mt-1 text-xs text-gray-500">{{ __('Format: XXX-XX-XXXX') }}</p>
+                    <p class="mt-1 text-xs text-gray-500" id="id-number-hint">{{ __('Enter the number for your selected ID type') }}</p>
                     @error('identification_number')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -162,15 +160,17 @@
                     <select
                         id="ethnicity"
                         name="ethnicity"
-                        required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('ethnicity') border-red-500 @enderror">
-                        <option>{{ __('Select ...') }}</option>
+                        <option value="">{{ __('Select ...') }}</option>
                         @foreach(App\Enums\Ethnicity::cases() as $ethnicity)
                             <option value="{{ $ethnicity->value }}" @selected(old('ethnicity') === $ethnicity->value)>
                                 {{ $ethnicity->label() }}
                             </option>
                         @endforeach
                     </select>
+                    @error('ethnicity')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Preferred Language -->
@@ -183,7 +183,7 @@
                         name="preferred_language"
                         required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('preferred_language') border-red-500 @enderror">
-                        <option>{{ __('Select ...') }}</option>
+                        <option value="">{{ __('Select ...') }}</option>
                         @foreach(App\Enums\PreferredLanguage::cases() as $preferred_language)
                             <option value="{{ $preferred_language->value }}" @selected(old('preferred_language') === $preferred_language->value)>
                                 {{ $preferred_language->label() }}

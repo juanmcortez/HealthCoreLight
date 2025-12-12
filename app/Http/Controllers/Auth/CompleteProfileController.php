@@ -22,42 +22,79 @@ use Illuminate\Http\RedirectResponse;
 class CompleteProfileController extends Controller
 {
     /**
-     * @throws \Throwable
+     * Store the completed profile information.
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
+        // Validate the incoming request
         $validated = $request->validate([
             'first_name' => 'required|string|max:128',
             'middle_name' => 'nullable|string|max:128',
             'last_name' => 'required|string|max:128',
             //
-            'date_of_birth' => 'nullable|date|before_or_equal:today',
-            'gender' => [Rule::enum(Gender::class), 'nullable'],
+            'date_of_birth' => 'required|date|before_or_equal:today',
+            'gender' => ['required', Rule::enum(Gender::class)],
             //
-            'identification_type' => [Rule::enum(IdentificationType::class), 'nullable'],
-            'identification_number' => 'nullable|string|max:24',
+            'identification_type' => ['nullable', Rule::enum(IdentificationType::class)],
+            'identification_number' => 'required_with:identification_type|nullable|string|max:24',
             //
-            'ethnicity' => [Rule::enum(Ethnicity::class), 'nullable'],
-            'preferred_language' => [Rule::enum(PreferredLanguage::class), 'nullable'],
+            'ethnicity' => ['nullable', Rule::enum(Ethnicity::class)],
+            'preferred_language' => ['required', Rule::enum(PreferredLanguage::class)],
+        ], [
+            // Custom error messages
+            'first_name.required' => 'Please enter your first name.',
+            'last_name.required' => 'Please enter your last name.',
+            'date_of_birth.required' => 'Please enter your date of birth.',
+            'date_of_birth.before_or_equal' => 'Date of birth cannot be in the future.',
+            'gender.required' => 'Please select your gender.',
+            'gender.enum' => 'Please select a valid gender option.',
+            'preferred_language.required' => 'Please select your preferred language.',
+            'preferred_language.enum' => 'Please select a valid language option.',
+            'identification_number.required_with' => 'Please enter your identification number when type is selected.',
+            'identification_type.enum' => 'Please select a valid identification type.',
+            'ethnicity.enum' => 'Please select a valid ethnicity option.',
         ]);
 
-        DB::transaction(static function () use ($request, $validated) {
-            // Get the user to update
-            $user = $request->user();
-            // Update or create demographic information
-            $demographic = $user->demographics;
-            // Proceed
-            if ($demographic) {
-                $demographic->update($validated);
-            } else {
-                $user->demographics()->create($validated);
-            }
-            // Mark profile as completed
-            $user->update(['profile_completed' => true]);
-        });
+        try {
+            DB::transaction(function () use ($request, $validated) {
+                // Get the authenticated user
+                $user = $request->user();
 
-        return redirect()
-            ->route('dashboard')
-            ->with('success', 'Profile completed successfully!');
+                // Update or create demographic information
+                $demographic = $user->demographics;
+
+                if ($demographic && $demographic->exists) {
+                    // Update existing demographic record
+                    $demographic->update($validated);
+                } else {
+                    // Create new demographic record and link to user
+                    $newDemographic = $user->demographics()->create($validated);
+                    $user->update(['demographic_id' => $newDemographic->id]);
+                }
+
+                // Mark profile as completed
+                $user->update(['profile_completed' => true]);
+            });
+
+            return redirect()
+                ->route('dashboard')
+                ->with('success', 'Profile completed successfully! Welcome to HealthCore Light.');
+
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Profile completion failed', [
+                'user_id' => $request->user()->uid,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'An error occurred while completing your profile. Please try again.');
+        }
     }
 }
