@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             ->create([
                 'username' => 'superadmin',
                 'password' => Hash::make('5uper4dm!nHe4lthC0r3L!ght'),
-                'profile_completed' => true,
+                'profile_completed' => false,
                 'demographic_id' => Demographic::factory()->create()->id,
             ]);
         Email::factory()
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
             ->create([
                 'username' => 'admin',
                 'password' => Hash::make('4dm!nHe4lthC0r3L!ght'),
-                'profile_completed' => true,
+                'profile_completed' => false,
                 'demographic_id' => Demographic::factory()->create()->id,
             ]);
         Email::factory()
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
             ->create([
                 'username' => 'manager',
                 'password' => Hash::make('m4n4g3rHe4lthC0r3L!ght'),
-                'profile_completed' => true,
+                'profile_completed' => false,
                 'demographic_id' => Demographic::factory()->create()->id,
             ]);
         Email::factory()
@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
                 // ---
                 $user->update([
                     'is_active' => fake()->boolean(),
-                    'profile_completed' => true,
+                    'profile_completed' => false,
                     'demographic_id' => Demographic::factory()->create()->id,
                 ]);
                 // ---

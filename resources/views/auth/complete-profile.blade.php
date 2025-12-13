@@ -1,5 +1,7 @@
 @extends('layouts.auth')
 
+@section('title', __('Complete Your Profile'))
+
 @section('content')
     <div class="w-full max-w-2xl">
         <div class="text-center mt-4 mb-8">

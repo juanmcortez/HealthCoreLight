@@ -37,6 +37,10 @@
     <div class="mb-4 p-4 bg-secondary-50 border border-secondary-200 text-secondary-800 rounded-lg text-sm">
         {{ __('A new verification link has been sent to your email address.') }}
     </div>
+@elseif (session('status') === 'profile-information-updated')
+    <div class="mb-4 p-4 bg-secondary-50 border border-secondary-200 text-secondary-800 rounded-lg text-sm">
+        {{ __('Profile updated successfully!') }}
+    </div>
 @elseif (session('status'))
     <div class="mb-4 p-4 bg-secondary-50 border border-secondary-200 text-secondary-800 rounded-lg text-sm">
         {{ session('status') }}
