@@ -43,7 +43,7 @@
                      x-transition:leave="transition ease-in duration-75"
                      x-transition:leave-start="transform opacity-100 scale-100"
                      x-transition:leave-end="transform opacity-0 scale-95"
-                     class="absolute right-0 mt-2 min-w-52 w-auto bg-white rounded-lg shadow-lg border border-gray-200 py-2"
+                     class="absolute right-0 mt-2 min-w-80 w-auto bg-white rounded-lg shadow-lg border border-gray-200 py-2"
                      style="display: none;">
                     <div class="px-4 py-2 border-b border-gray-200">
                         <h3 class="text-sm font-semibold text-gray-900">{{ __('Notifications') }}</h3>
@@ -93,12 +93,12 @@
                             {!! __('Last login: <em>:date</em>', ['date' => auth()->user()->last_login_at ?? __('Never') ]) !!}
                         </p>
                     </div>
-                    <a href="#" class="block mt-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                    <a href="{{ route('profile.edit') }}" class="block mt-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                         <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
-                        {{ __('Profile') }}
+                        {{ __('My Profile') }}
                     </a>
                     <div class="border-t border-gray-200 my-2"></div>
                     @can('view-users')
