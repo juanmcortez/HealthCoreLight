@@ -25,8 +25,8 @@
         @include('components.navbar')
 
         <!-- Page Content -->
-        <main class="py-6">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <main class="p-4">
+            <div class="p-4 mx-auto">
                 <!-- Breadcrumbs -->
                 @if(isset($breadcrumbs))
                     @include('components.breadcrumbs', ['breadcrumbs' => $breadcrumbs])

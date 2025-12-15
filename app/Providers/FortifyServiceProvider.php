@@ -68,6 +68,9 @@ class FortifyServiceProvider extends ServiceProvider
             }
             // Verify the password
             if ($user && Hash::check($credentials['password'], $user->password)) {
+                // Update last login date.
+                $user->update(['last_login_at' => now()]);
+                //
                 return $user;
             }
             // Everything failed
