@@ -10,17 +10,18 @@
 namespace App\Models\Users;
 
 use Carbon\Carbon;
-use Illuminate\Notifications\Notifiable;
 use App\Models\Demographics\Demographic;
+use Illuminate\Notifications\Notifiable;
 use Database\Factories\Users\UserFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -39,7 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $with = ['demographics'];
+    protected $with = ['demographics', 'roles'];
 
     /**
      * The attributes that are mass assignable.
@@ -170,5 +171,29 @@ class User extends Authenticatable implements MustVerifyEmail
     public function demographics(): HasOne
     {
         return $this->hasOne(Demographic::class, 'id', 'demographic_id')->withDefault();
+    }
+
+    /**
+     * The roles that belong to the user.
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'uid', 'rid');
+    }
+
+    /**
+     * Check if the user has a specific role.
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->roles->contains('slug', $role);
+    }
+
+    /**
+     * Get the user's highest role level.
+     */
+    public function level(): int
+    {
+        return $this->roles->max('level') ?? 0;
     }
 }

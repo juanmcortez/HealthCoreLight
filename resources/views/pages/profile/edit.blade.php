@@ -59,23 +59,23 @@
                         <!-- Account Information (Read-only) -->
                         <div class="pb-6 border-b border-gray-200">
                             <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('Account Information') }}</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('Username') }}</label>
-                                    <input type="text" value="{{ $user->username }}" disabled
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed">
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('Username cannot be changed') }}</p>
+                                    <p class="w-full px-2 pb-3 text-gray-400">{{ $user->username }}</p>
+                                    {{-- <p class="mt-1 text-xs text-gray-500">{{ __('Username cannot be changed') }}</p> --}}
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('Primary Email') }}</label>
-                                    <input type="email" value="{{ $primaryEmail->email ?? '' }}" disabled
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed">
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('Editable in email management section') }}</p>
+                                    <p class="w-full px-2 pb-3 text-gray-400">{{ $primaryEmail->email ?? '' }}</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('Current role') }}</label>
+                                    <p class="w-full px-2 pb-3 text-gray-400">{{ $user->roles->first()->name }}</p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('Member Since') }}</label>
-                                    <input type="text" value="{{ $user->created_at->format('M d, Y H:i') }}" disabled
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed">
+                                    <p class="w-full px-2 pb-3 text-gray-400">{{ $user->created_at->format('M d, Y H:i') }}</p>
                                 </div>
                             </div>
                         </div>
