@@ -12,6 +12,7 @@ namespace App\Models\Users;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Demographics\Demographic;
+use Database\Factories\Users\UserFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -23,7 +24,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\Users\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, SoftDeletes;
 
     /**

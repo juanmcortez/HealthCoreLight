@@ -32,6 +32,9 @@ class UserSeeder extends Seeder
                 'demographic_id' => $new_user->demographic_id,
                 'email' => 'superadmin@healthcorelight.test',
             ]);
+        // ---
+        $this->command->info('✓ Main user created.');
+        // ---
 
         // ------------------------
         $new_user = User::factory()
@@ -64,11 +67,15 @@ class UserSeeder extends Seeder
                 'demographic_id' => $new_user->demographic_id,
                 'email' => 'manager@healthcorelight.test',
             ]);
+        // ---
+        $this->command->info('✓ Secondary users created.');
+        // ---
 
         // ------------------------
         // Create some random users
         // ------------------------
-        User::factory(7)
+        $count = 12;
+        User::factory($count)
             ->create()
             ->each(function ($user) {
                 // ---
@@ -86,5 +93,8 @@ class UserSeeder extends Seeder
                         // 'email_type' => fake()->randomElement(EmailType::nonPrimary()),
                     ]);
             });
+        // ---
+        $this->command->info('✓ '.$count.' Random users created.');
+        // ---
     }
 }
